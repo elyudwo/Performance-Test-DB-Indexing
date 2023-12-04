@@ -19,8 +19,21 @@ public class UserService {
 
     @Transactional
     public void registerManyUser() {
+        List<UserEntity> names = getUserEntities(1000000);
+
+        userRepository.saveAll(names);
+    }
+
+    @Transactional
+    public void registerThousandUser() {
+        List<UserEntity> names = getUserEntities(1000);
+
+        userRepository.saveAll(names);
+    }
+
+    private List<UserEntity> getUserEntities(int count) {
         List<UserEntity> names = new ArrayList<>();
-        for(int i=0; i<1000000; i++) {
+        for(int i=0; i<count; i++) {
             String name = generateRandomString();
 
             names.add(UserEntity.builder()
@@ -31,13 +44,7 @@ public class UserService {
         names.add(UserEntity.builder()
                 .name("LILJAY")
                 .build());
-
-        userRepository.saveAll(names);
-    }
-
-    public String findUserByName(String name) {
-        UserEntity user = userRepository.findByName(name).orElseThrow(RuntimeException::new);
-        return user.getName();
+        return names;
     }
 
     private String generateRandomString() {
@@ -50,5 +57,10 @@ public class UserService {
         }
 
         return randomStringBuilder.toString();
+    }
+
+    public String findUserByName(String name) {
+        UserEntity user = userRepository.findByName(name).orElseThrow(RuntimeException::new);
+        return user.getName();
     }
 }
