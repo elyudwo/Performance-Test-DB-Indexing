@@ -20,6 +20,12 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/post/thousand")
+    public ResponseEntity<Void> registerThousandUser() {
+        userService.registerThousandUser();
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping
     public ResponseEntity<String> findUserByName(@RequestParam String name) {
         return ResponseEntity.ok(userService.findUserByName(name));
